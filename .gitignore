@@ -3,3 +3,5 @@
 
 # Ignorar archivos con extensión .o
 *.o
+
+*.vscode

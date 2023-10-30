@@ -11,20 +11,39 @@ struct test
     int c;
 };
 
-void func(struct test *p)
+int *createArray(int n)
 {
-    for (int i = 0; i < 10; i++)
+    int *ptr;
+    ptr = (int *)malloc(n * sizeof(int));
+    for (int i = 0; i < n; i++)
     {
-        p->A[i] = i * 5;
+        ptr[i] = i;
     }
 
-    p->b *= 2;
-    p->c *= 2;
+    return ptr;
 }
 
-void printStruct(struct test *p)
+struct test *createStruct(int size)
 {
-    for (int i = 0; i < 10; i++)
+    int *arr = NULL;
+    struct test *t1 = (struct test *)malloc(sizeof(struct test));
+
+    arr = createArray(size);
+
+    for (int i = 0; i < size; i++)
+    {
+        t1->A[i] = arr[i];
+    }
+
+    t1->b = 10;
+    t1->c = 20;
+
+    return t1;
+}
+
+void printStruct(struct test *p, int size)
+{
+    for (int i = 0; i < size; i++)
     {
         printf("p->A[%d] = %d\n", i, p->A[i]);
     }
@@ -35,13 +54,15 @@ void printStruct(struct test *p)
 
 int main(int argc, char const *argv[])
 {
-    struct test t1 = {{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 10, 5};
+    int arraySize = 0;
+    struct test *t1;
+    printf("Array size: ");
+    scanf("%d", &arraySize);
+
+    t1 = createStruct(arraySize);
 
     printf("Before change\n");
-    printStruct(&t1);
-    func(&t1);
-    printf("After change\n");
-    printStruct(&t1);
+    printStruct(t1, arraySize);
 
     return 0;
 }
